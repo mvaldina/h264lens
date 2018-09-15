@@ -8,7 +8,7 @@
 #include <gst/app/gstappsink.h>
 
 #include "application.h"
-
+#include "utils.h"
 
 
 // Constants
@@ -27,23 +27,19 @@ static GstFlowReturn on_new_sample_from_sink (GstElement* elt, application_t* da
   // Parse.
   GstMapInfo info;
   gst_buffer_map(buffer, &info, GST_MAP_READ);
-  GstH264NalUnit nalu;
-  GstH264ParserResult result = gst_h264_parser_identify_nalu(data->parser, info.data, 0, info.size, &nalu);
   
-  //GstH264ParserResult result = gst_h264_parser_identify_nalu_avc(data->parser, info.data, 0, info.size,info.size, &nalu);
-  g_print("H.264 parse \t%d - Get a new sample (%d, size %lu bytes, type  %hu)\n", result, counter++, gst_buffer_get_size(buffer), nalu.type);
+  int offset = 0;
+  GstH264ParserResult result = GST_H264_PARSER_OK;
+  do { 
+    GstH264NalUnit nalu;
+    result = gst_h264_parser_identify_nalu(data->parser, info.data, offset, info.size, &nalu);
+    offset = nalu.offset + nalu.size;
+    g_print("H.264 parse \t%d - Get a new sample (%d, size %u bytes, type %s)\n", result, counter++, nalu.size,
+            gst_h264_nal_unit_type_to_chars(nalu.type));
+  } while (result == GST_H264_PARSER_OK);
 
   gst_buffer_unmap(buffer, &info);
-  // 7 10 p
-  //app_buffer = gst_buffer_copy (buffer);
   gst_sample_unref (sample);
-
-  /* we don't need the appsink sample anymore */
-  /* get source an push new buffer */
-
-  //ret = gst_app_src_push_buffer (GST_APP_SRC (source), app_buffer);
-  //source = gst_bin_get_by_name (GST_BIN (data->sink), "testsource");
-  //gst_object_unref (source);
   return ret;
 }
 
