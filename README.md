@@ -1,2 +1,3 @@
 # h264lens
-An H.264 stream analizer on top of Gstreamer
+
+An H.264 stream analyzer on top of GStreamer.
