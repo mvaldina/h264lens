@@ -3,7 +3,7 @@
 
 #include <gst/gst.h>
 // Forward declarations.
-typedef struct application_t;
+struct application_t;
 
 /**
  * @brief Create a gst pipeline for a PCAP file

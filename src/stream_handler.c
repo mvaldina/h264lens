@@ -5,6 +5,7 @@
 #include <gst/codecparsers/gsth264parser.h>
 #include <gst/app/gstappsink.h>
 
+#include <gtk/gtk.h>
 // Constants
 // This is the caps for H.264 as application inputs
 // NAL byte-stream
@@ -26,13 +27,22 @@ static GstFlowReturn on_new_sample_from_sink(GstElement* elt, application_t* dat
   
   int offset = 0;
   GstH264ParserResult result = GST_H264_PARSER_OK;
+  
+  GtkTreeIter iter;
   do { 
     GstH264NalUnit nalu;
     result = gst_h264_parser_identify_nalu(data->parser, info.data, offset, info.size, &nalu);
     offset = nalu.offset + nalu.size;
+    
+    //if (counter <= 10) {
+      gtk_list_store_append(data->list_store, &iter);
+      gtk_list_store_set(data->list_store, &iter, 0, (gint64)counter, 1, gst_h264_nal_unit_type_to_chars(nalu.type), 2, (int)nalu.size, -1);
+    //}
+    /*
     g_print("H.264 parse \t%d - Get a new sample (%d, size %u bytes, type %s)\n", result, counter++, nalu.size,
             gst_h264_nal_unit_type_to_chars(nalu.type));
-
+*/
+    counter++;
     if (nalu.type == GST_H264_NAL_SPS) {
       GstH264SPS sps;
       gst_h264_parse_sps(&nalu, &sps, TRUE);

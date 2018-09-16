@@ -20,6 +20,8 @@ typedef struct _application {
   GstElement* appsink;
   // Parser
   GstH264NalParser* parser;
+  // list store
+  GtkListStore* list_store;
 } application_t;
 
 /**

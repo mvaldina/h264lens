@@ -1,6 +1,7 @@
 # Project 
 build
 .vscode
+.gdb_history
 
 # Prerequisites
 *.d
