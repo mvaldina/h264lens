@@ -3,16 +3,19 @@
 
 #include <glib.h>
 #include <gst/gst.h>
+#include <gtk/gtk.h>
 // Need to move to another part.
 #include <gst/codecparsers/gsth264parser.h>
 
 typedef struct _application {
+  // Gtk main window
+  GtkWidget* main_window;
   // Main loop.
   GMainLoop* loop;
   // Bus watcher.
   GstBus* bus;
   // Pipeline.
-  GstElement* pipeline;
+  GstPipeline* pipeline;
   // appsink.
   GstElement* appsink;
   // Parser
