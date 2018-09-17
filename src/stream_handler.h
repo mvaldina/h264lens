@@ -1,10 +1,9 @@
 #ifndef H264LENS_STREAM_HANDLER_H__
 #define H264LENS_STREAM_HANDLER_H__
 
-#include <gst/gst.h>
 // Forward declarations.
 struct application_t;
-
+struct GstElement;
 /**
  * @brief Create a gst pipeline for a PCAP file
  * 
@@ -13,6 +12,6 @@ struct application_t;
  * @param port 
  * @return GstPipeline* 
  */
-GstPipeline* create_gst_pipeline_pcap(application_t* app, char const* location, int pt, int port);
+GstElement* create_gst_pipeline_pcap(application_t* app, char const* location, int pt, int port);
 
 #endif

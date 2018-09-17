@@ -55,8 +55,8 @@ static GstFlowReturn on_new_sample_from_sink(GstElement* elt, application_t* dat
   return ret;
 }
 
-GstPipeline* create_gst_pipeline_pcap(application_t* app, char const* location, int pt, int port) {
-  GstPipeline* pipeline = NULL;
+GstElement* create_gst_pipeline_pcap(application_t* app, char const* location, int pt, int port) {
+  GstElement* pipeline = NULL;
   gchar* cmd_line = g_strdup_printf("filesrc location=\"%s\" ! pcapparse dst-port=%d !  application/x-rtp, payload=%d, media=video, clock-rate=90000, encoding-name=H264 ! rtph264depay ! appsink caps=\"%s\" name=mysink", location, port, pt, h264avc_caps);
   pipeline = gst_parse_launch(cmd_line, NULL);
   g_free(cmd_line);

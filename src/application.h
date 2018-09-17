@@ -15,7 +15,7 @@ typedef struct _application {
   // Bus watcher.
   GstBus* bus;
   // Pipeline.
-  GstPipeline* pipeline;
+  GstElement* pipeline;
   // appsink.
   GstElement* appsink;
   // Parser
